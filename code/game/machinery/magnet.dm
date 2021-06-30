@@ -234,7 +234,7 @@
 	if(stat & (BROKEN|NOPOWER))
 		return
 	user.set_machine(src)
-	var/dat = "<B>Magnetic Control Console</B><BR><BR>"
+	var/dat = {"<meta charset="UTF-8"><B>Magnetic Control Console</B><BR><BR>"}
 	if(!autolink)
 		dat += {"
 		Frequency: <a href='?src=[UID()];operation=setfreq'>[frequency]</a><br>
@@ -307,7 +307,7 @@
 				if(speed <= 0)
 					speed = 1
 			if("setpath")
-				var/newpath = sanitize(copytext(input(usr, "Please define a new path!",,path) as text|null,1,MAX_MESSAGE_LEN))
+				var/newpath = sanitize(copytext_char(input(usr, "Please define a new path!",,path) as text|null,1,MAX_MESSAGE_LEN))
 				if(newpath && newpath != "")
 					moving = 0 // stop moving
 					path = newpath

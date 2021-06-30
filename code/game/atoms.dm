@@ -58,6 +58,8 @@
 	var/chat_color_name
 	/// Last color calculated for the the chatmessage overlays. Used for caching.
 	var/chat_color
+	/// A luminescence-shifted value of the last color calculated for chatmessage overlays
+	var/chat_color_darkened
 
 /atom/New(loc, ...)
 	SHOULD_CALL_PARENT(TRUE)
@@ -968,8 +970,8 @@ GLOBAL_LIST_EMPTY(blood_splatter_icons)
 		if(M.client)
 			speech_bubble_hearers += M.client
 
-		if((M.client?.prefs.toggles2 & PREFTOGGLE_2_RUNECHAT) && M.can_hear())
-			M.create_chat_message(src, message)
+			if((M.client.prefs.toggles2 & PREFTOGGLE_2_RUNECHAT) && M.can_hear() && M.stat != UNCONSCIOUS)
+				M.create_chat_message(src, message, FALSE, TRUE)
 
 	if(length(speech_bubble_hearers))
 		var/image/I = image('icons/mob/talk.dmi', src, "[bubble_icon][say_test(message)]", FLY_LAYER)
@@ -1105,7 +1107,7 @@ GLOBAL_LIST_EMPTY(blood_splatter_icons)
 	if(!use_prefix)
 		default_value = name
 	else if(findtext(name, prefix) != 0)
-		default_value = copytext(name, length(prefix) + 1)
+		default_value = copytext_char(name, length_char(prefix) + 1)
 	else
 		// Either the thing has a non-conforming name due to being set in the map
 		// OR (much more likely) the thing is unlabeled yet.
@@ -1132,7 +1134,7 @@ GLOBAL_LIST_EMPTY(blood_splatter_icons)
 		return null
 
 
-	t = sanitize(copytext(t, 1, MAX_NAME_LEN))
+	t = sanitize(copytext_char(t, 1, MAX_NAME_LEN))
 	if(actually_rename)
 		if(t == "")
 			name = "[initial(name)]"

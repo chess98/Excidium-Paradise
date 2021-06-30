@@ -24,7 +24,7 @@ GLOBAL_LIST_INIT(adminhelp_ignored_words, list("unknown", "the", "a", "an", "of"
 	if(handle_spam_prevention(msg, MUTE_ADMINHELP, OOC_COOLDOWN))
 		return
 
-	msg = sanitize_simple(copytext(msg, 1, MAX_MESSAGE_LEN))
+	msg = sanitize_simple(copytext_char(msg,1,MAX_MESSAGE_LEN))
 	if(!msg) // No message after sanitisation
 		return
 
@@ -59,4 +59,4 @@ GLOBAL_LIST_INIT(adminhelp_ignored_words, list("unknown", "the", "a", "an", "of"
 					alerttext = " | **NO MENTORS ONLINE**"
 
 			log_admin("[selected_type]: [key_name(src)]: [msg] - heard by [active_mentors] non-AFK mentors.")
-			SSdiscord.send2discord_simple(DISCORD_WEBHOOK_MENTOR, "[key_name(src)]: [msg][alerttext]")
+			SSdiscord.send2discord_simple(DISCORD_WEBHOOK_MENTOR, "**\[Mentorhelp]** [key_name(src)]: [msg][alerttext]")

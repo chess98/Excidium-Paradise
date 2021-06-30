@@ -13,11 +13,11 @@
 
 /obj/item/contract/attack_self(mob/user as mob)
 	user.set_machine(src)
-	var/dat
+	var/dat = {"<meta charset="UTF-8">"}
 	if(used)
-		dat = "<B>You have already summoned your apprentice.</B><BR>"
+		dat += "<B>You have already summoned your apprentice.</B><BR>"
 	else
-		dat = "<B>Contract of Apprenticeship:</B><BR>"
+		dat += "<B>Contract of Apprenticeship:</B><BR>"
 		dat += "<I>Using this contract, you may summon an apprentice to aid you on your mission.</I><BR>"
 		dat += "<I>If you are unable to establish contact with your apprentice, you can feed the contract back to the spellbook to refund your points.</I><BR>"
 		dat += "<B>Which school of magic is your apprentice studying?:</B><BR>"
@@ -88,7 +88,7 @@
 				var/wizard_name_first = pick(GLOB.wizard_first)
 				var/wizard_name_second = pick(GLOB.wizard_second)
 				var/randomname = "[wizard_name_first] [wizard_name_second]"
-				var/newname = sanitize(copytext(input(M, "You are the wizard's apprentice. Would you like to change your name to something else?", "Name change", randomname) as null|text,1,MAX_NAME_LEN))
+				var/newname = sanitize(copytext_char(input(M, "You are the wizard's apprentice. Would you like to change your name to something else?", "Name change", randomname) as null|text,1,MAX_NAME_LEN))
 
 				if(!newname)
 					newname = randomname

@@ -41,7 +41,7 @@
 	var/message = input(user, "Shout a message:", "Megaphone") as text|null
 	if(!message)
 		return
-	message = sanitize(copytext(message, 1, MAX_MESSAGE_LEN))
+	message = sanitize(copytext_char(message, 1, MAX_MESSAGE_LEN))
 	if(!message)
 		return
 	message = capitalize(message)
@@ -71,8 +71,8 @@
 		O.hear_talk(user, message_to_multilingual("<span class='reallybig'>[message]</span>"))
 
 	for(var/mob/M in get_mobs_in_view(7, src))
-		if((M.client?.prefs.toggles2 & PREFTOGGLE_2_RUNECHAT) && M.can_hear())
-			M.create_chat_message(user, message, FALSE, "big")
+		if((M.client?.prefs.toggles2 & PREFTOGGLE_2_RUNECHAT) && M.can_hear() && M.stat != UNCONSCIOUS)
+			M.create_chat_message(user, message, FALSE, FALSE)
 
 /obj/item/megaphone/emag_act(user as mob)
 	if(!emagged)
